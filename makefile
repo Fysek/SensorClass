@@ -1,17 +1,19 @@
 # makefile for BME680
 
-CC = gcc
-DEPS = bcm2835.h twowire.h rasp_BME680.h bme680_defs.h bme680.h
-OBJ = bme680_lib.o bme680.o bme680m.o
-LIBS = -lm -ltwowire -lbcm2835
+all: bme680_main.o bme680.o
+	gcc -o bme680 bme680_main.o bme680.o
 
-.cpp.o: %c $(DEPS)
-	$(CC) -Wall -Werror -c -o $@ $<
+bme680_main.o: bme680_main.c bme680.h 
+	gcc -c bme680_main.c
 
-bme680m : $(OBJ)
-	$(CC) -o $@ $^ $(LIBS)
+bme680.o: bme680.c bme680.h bme680_defs.h
+	gcc -c bme680.c
 
-.PHONY : clean
+clean:
+	rm bme680_main.o
 
-clean :
-	rm bme680m $(OBJ)
+
+
+
+
+

@@ -171,7 +171,7 @@ int main(int argc, char *argv[] )
 		| BME680_GAS_SENSOR_SEL;
 
 	/* Set the desired sensor configuration */
-	rslt =  (set_required_settings,&Sensor);
+	rslt = bme680_set_sensor_settings(set_required_settings,&Sensor);
 
 	/* Set the power mode */
 	rslt = bme680_set_sensor_mode(&Sensor);
@@ -180,7 +180,9 @@ int main(int argc, char *argv[] )
 	 * measurement is complete */
 	uint16_t meas_period;
 	bme680_get_profile_dur(&meas_period, &Sensor);
-	user_delay_ms(meas_period + delay*1000); /* Delay till the measurement is ready */
+	
+	/* Delay till the measurement is ready */
+	user_delay_ms(meas_period + delay*1000); 
 
 
 	printf("***Start of measurements***\n");
