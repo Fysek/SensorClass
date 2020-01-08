@@ -326,7 +326,7 @@
 											"font": "Arial;13;1",
 											"left": 957,
 											"top": 935,
-											"width": 127,
+											"width": 135,
 											"height": 13,
 											"text": "BME680"
 										},
@@ -361,7 +361,7 @@
 									"font": "Arial;13;0",
 									"left": 952,
 									"top": 928,
-									"width": 137,
+									"width": 145,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAFvhKfUvxljECc="
@@ -388,7 +388,7 @@
 									"font": "Arial;13;0",
 									"left": 952,
 									"top": 953,
-									"width": 137,
+									"width": 145,
 									"height": 10
 								},
 								{
@@ -413,7 +413,7 @@
 											"font": "Arial;13;0",
 											"left": 957,
 											"top": 968,
-											"width": 127,
+											"width": 135,
 											"height": 13,
 											"text": "+configure(): void",
 											"horizontalAlignment": 0
@@ -422,7 +422,7 @@
 									"font": "Arial;13;0",
 									"left": 952,
 									"top": 963,
-									"width": 137,
+									"width": 145,
 									"height": 23
 								},
 								{
@@ -462,7 +462,7 @@
 							"containerChangeable": true,
 							"left": 952,
 							"top": 928,
-							"width": 137,
+							"width": 145,
 							"height": 185,
 							"nameCompartment": {
 								"$ref": "AAAAAAFvhKfUvhliCmE="
@@ -1274,7 +1274,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 966,
+									"left": 969,
 									"top": 837,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -1295,7 +1295,7 @@
 									},
 									"visible": null,
 									"font": "Arial;13;0",
-									"left": 951,
+									"left": 954,
 									"top": 840,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -1316,7 +1316,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 995,
+									"left": 998,
 									"top": 830,
 									"height": 13,
 									"alpha": -1.5707963267948966,
@@ -1335,7 +1335,7 @@
 								"$ref": "AAAAAAFvhKfUvhlhd4s="
 							},
 							"lineStyle": 1,
-							"points": "1000:927;963:753",
+							"points": "1003:927;965:753",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAFvhRn5uDhp4Lo="

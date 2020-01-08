@@ -3,19 +3,14 @@
 
 class Sensor {       
   private:
-    float 				temperature;
-	float 				humidity;
-	float 				pressure;
-	int 				gasResistance;
-	int 				proximity;
-	int 				smokeLevel;
-	int 				distance;
-	std::vector<int>	auxData;
+	int 	_id;
+	Data 	_sensorData;
   
   public:             
 	virtual void configure();
 	int getSensorID(); 
-	void setData(float, float, float, int, int, int, int, std::vector<int>);	
+	void setSensorID(int id); 
+	void setData(Data* data);	
     
     
     
