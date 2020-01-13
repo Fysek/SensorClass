@@ -6,6 +6,8 @@
 class DHT11: public Sensor {
   public:
 	void configure();
+	void startConnection();
+	void stopConnection();
 
 };
 

@@ -1,13 +1,13 @@
 #include "sensor.h"
 
 Sensor::Sensor(){
-        counter++;
-        _id = counter;
+    counter++;
+    _id = counter;
 }
 
 Sensor::~Sensor(){
-        counter--;
-        _id = counter;
+    counter--;
+    _id = counter;
 }
 
 int Sensor::getSensorID(){

@@ -1,5 +1,7 @@
 #include "data.h"
 #include <iostream>
+#include <linux/i2c-dev.h>
+#include <sys/ioctl.h>
 
 #ifndef SENSOR_H
 #define SENSOR_H
@@ -8,13 +10,15 @@
 class Sensor {
   private:
 	int 	    _id;
-    static int  counter;
+  static int  counter;
 
   public:
 	Sensor();
 	~Sensor();
-	virtual void configure() = 0;
 	int getSensorID();
+	virtual void configure() = 0;
+	virtual void startConnection() = 0;
+  virtual void stopConnection() = 0;
 
 };
 

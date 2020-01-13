@@ -6,6 +6,8 @@
 class DS18B20: public Sensor {
   public:
 	void configure();
+	void startConnection();
+	void stopConnection();
 
 };
 

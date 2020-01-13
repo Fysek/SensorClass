@@ -6,6 +6,8 @@
 class APDS9960: public Sensor {
   public:
 	void configure();
+	void startConnection();
+	void stopConnection();
 
 };
 
