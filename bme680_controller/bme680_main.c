@@ -196,8 +196,11 @@ int main(int argc, char *argv[] )
 	int i=0;
 
 	while(i<nMeas) {
+
+		// Get sensor data
 		rslt = bme680_get_sensor_data(&data, &Sensor);
 		
+		// Avoid using measurements from an unstable heating setup 
 		if(data.status & BME680_HEAT_STAB_MSK)
 		{
 			t = time(NULL);
@@ -209,19 +212,23 @@ int main(int argc, char *argv[] )
 			printf("\r\n");
 			write2file(outputFile, tm, data);
 			
-		} else {	
-			nMeas++;//When setup unstable, add measurement
+		} else {
+			//When setup unstable, add measurement
+			nMeas++;
 		}
 		i++;
-	
-	
+		// Trigger next meausurement
 		rslt = bme680_set_sensor_mode(&Sensor); 
+
+		// Wait for next meausurement
 		user_delay_ms(meas_period + delay*1000); 		
+
 	}
 
 	printf("***End of measurements***\n");
 
-	i2cClose();// close I2C Bus
+    // close I2C Bus
+	i2cClose();
 	
 	return 0;
 }

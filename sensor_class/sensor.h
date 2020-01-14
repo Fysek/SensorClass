@@ -1,10 +1,11 @@
+#ifndef SENSOR_H
+#define SENSOR_H
+
 #include "data.h"
 #include <iostream>
 #include <linux/i2c-dev.h>
 #include <sys/ioctl.h>
 
-#ifndef SENSOR_H
-#define SENSOR_H
 
 
 class Sensor {
@@ -19,7 +20,7 @@ class Sensor {
 	virtual void configure() = 0;
 	virtual void startConnection() = 0;
   virtual void stopConnection() = 0;
-
+  
 };
 
 

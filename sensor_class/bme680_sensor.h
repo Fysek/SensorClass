@@ -1,4 +1,8 @@
+#ifndef BME680_SENSOR_H
+#define BME680_SENSOR_H
+
 #include "sensor.h"
+#include "data.h"
 #include "../bme680_controller/bme680.h"
 #include "../bme680_controller/bme680_defs.h"
 #include <stdio.h>
@@ -11,29 +15,21 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-
-
-#ifndef BME680_SENSOR_H
-#define BME680_SENSOR_H
-
 #define DEBUG 0
 
 /*
 How to use the sensor:
 1. Start connection through I2C.
-2. Set I2C address.
-3. Configure sensor.
-4. Execute measurement(s).
-5. Stop connection.
+2. Configure sensor.
+3. Execute measurement(s).
+4. Stop connection.
 
 Example code:
 
 startConnection();
-
 configure();
-while(i<numberOfMeasurements){
+while(){
   measure();
-  i++;
 }
 stopConnection();
 */
@@ -43,18 +39,17 @@ class BME680: public Sensor {
     struct bme680_dev _SensorSettings;
     int _configurationResult=BME680_OK;
     int _I2CAddress;
-  
+    
   public:
 	  BME680(int I2CAddress){
       _I2CAddress=I2CAddress;
     }
     
-	  void startConnection();
-	  void stopConnection();
+	  void startConnection() override;
+	  void stopConnection() override;
+    void configure()override;
     void I2CSetAddress(int address);
-    void configure();
-    void measure(int delay, int nMeas, char *outputFile);
-	
+    void measure(int delay, int nMeas, Data &outputData, char *outputFile);
 };
 
 /*Global functions for sensor configuration*/

@@ -10,7 +10,6 @@ Data::Data(){
     _proximity       =0;
     _smokeLevel      =0;
     _distance        =0;
-    _auxData         ={};
 }
 
 Data::Data(
@@ -20,8 +19,7 @@ Data::Data(
 			int 				gasResistance,
 			int 				proximity,
 			int 				smokeLevel,
-			int 				distance,
-			std::vector<int>	auxData
+			int 				distance
 			)
 			{
 				_temperature     = temperature;
@@ -31,28 +29,66 @@ Data::Data(
 				_proximity       = proximity;
 				_smokeLevel      = smokeLevel;
 				_distance        = distance;
-				_auxData         = auxData;
 			}
 
 void Data::printData(){
-    std::cout << "Temperature: "<< _temperature <<"degC"
-              << ", Humidity: "<< _humidity <<"%rH"
-              << ", Pressure: "<< _pressure <<"hPa"
-              << ", Gas resistance: "<< _gasResistance <<"Ohms"
-              << ", Proximity: "<< _proximity <<"%"
-              << ", Smoke level: "<< _smokeLevel <<"%"
-              << ", Distance: "<< _distance <<"m"<<std::endl;
+	  time_t t = time(NULL);
+	  struct tm tm = *localtime(&t);
+    
+    std::cout <<  tm.tm_year + 1900 << "/" << 
+                  std::setfill('0') << std::setw(2) << tm.tm_mon + 1 << "/" <<
+                  std::setfill('0') << std::setw(2) << tm.tm_mday << " " << 
+                  std::setfill('0') << std::setw(2) << tm.tm_hour << ":" << 
+                  std::setfill('0') << std::setw(2) << tm.tm_min << ":" << 
+                  std::setfill('0') << std::setw(2) << tm.tm_sec;
 
+    std::cout << " Temperature: "<< _temperature <<" degC"
+              << ", Humidity: "<< _humidity <<" %rH"
+              << ", Pressure: "<< _pressure <<" hPa"
+              << ", Gas resistance: "<< _gasResistance <<" Ohms"
+              << ", Proximity: "<< _proximity <<" %"
+              << ", Smoke level: "<< _smokeLevel <<" %"
+              << ", Distance: "<< _distance <<" m"<<std::endl;
 }
 
-void Data::updateData(float t=0, float h=0, float p=0, int gR=0, int pr=0, int s=0, int d=0, std::vector<int> a={}){
-	_temperature    =t;
-	_humidity       =h;
-	_pressure       =p;
-	_gasResistance  =gR;
-	_proximity      =pr;
-	_smokeLevel     =s;
-	_distance       =d;
-	_auxData        =a;
+std::string Data::toString(){
+  time_t t = time(NULL);
+  struct tm tm = *localtime(&t);
+  std::stringstream ss;
+  ss << tm.tm_year + 1900 << "/" << 
+                  std::setfill('0') << std::setw(2) << tm.tm_mon + 1 << "/" <<
+                  std::setfill('0') << std::setw(2) << tm.tm_mday << " " << 
+                  std::setfill('0') << std::setw(2) << tm.tm_hour << ":" << 
+                  std::setfill('0') << std::setw(2) << tm.tm_min << ":" << 
+                  std::setfill('0') << std::setw(2) << tm.tm_sec
+                  << " Temperature: "<< _temperature <<" degC"
+                  << ", Humidity: "<< _humidity <<" %rH"
+                  << ", Pressure: "<< _pressure <<" hPa"
+                  << ", Gas resistance: "<< _gasResistance <<" Ohms"
+                  << ", Proximity: "<< _proximity <<" %"
+                  << ", Smoke level: "<< _smokeLevel <<" %"
+                  << ", Distance: "<< _distance <<" m";
+                        
+  return ss.str();
 }
+
+
+void Data::setTemperature(float temperature)	{ _temperature = temperature; }
+void Data::setHumidity(float humidity)			{ _humidity = humidity; }
+void Data::setPressure(float pressure)			{ _pressure = pressure; }
+void Data::setGasResistance(int gasResistance)	{ _gasResistance = gasResistance; }
+void Data::setProximity(int proximity)			{ _proximity = proximity; }
+void Data::setSmokeLevel(int smokeLevel)		{ _smokeLevel = smokeLevel; }
+void Data::setDistance(int distance)			{ _distance = distance; }
+
+float Data::getTemperature()					{ return _temperature; }
+float Data::getHumidity()						{ return _humidity; }
+float Data::getPressure()						{ return _pressure; }
+int Data::getGasResistance()					{ return _gasResistance; }
+int Data::getProximity()						{ return _proximity; }
+int Data::getSmokeLevel()						{ return _smokeLevel; }
+int Data::getDistance()							{ return _distance; }
+
+
+
 

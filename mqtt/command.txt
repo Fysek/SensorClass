@@ -1,0 +1,3 @@
+gcc hello_mqtt.c -o hello_mqtt -lpaho-mqtt3c
+
+g++ client.cpp callback.cpp -o client -lpthread -lcrypto -lssl -lpaho-mqtt3as -lpaho-mqttpp3

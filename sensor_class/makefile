@@ -1,5 +1,5 @@
-all: main.o sensor.o data.o apds9960_sensor.o bme680.o bme680_sensor.o dht11_sensor.o ds18b20_sensor.o
-	g++ -o main main.o sensor.o data.o apds9960_sensor.o bme680.o bme680_sensor.o dht11_sensor.o ds18b20_sensor.o
+all: main.o sensor.o callback.o data.o apds9960_sensor.o bme680.o bme680_sensor.o dht11_sensor.o ds18b20_sensor.o
+	g++ -o main main.o sensor.o callback.o data.o apds9960_sensor.o bme680.o bme680_sensor.o dht11_sensor.o ds18b20_sensor.o
 
 main.o: main.cpp  
 	g++ -c main.cpp
@@ -27,4 +27,3 @@ ds18b20_sensor.o: ds18b20_sensor.cpp ds18b20_sensor.h
 
 clean:
 	rm main main.o sensor.o data.o apds9960_sensor.o bme680.o bme680_sensor.o dht11_sensor.o ds18b20_sensor.o
-

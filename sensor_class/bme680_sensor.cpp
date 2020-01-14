@@ -66,7 +66,7 @@ void BME680::configure(){
    * measurement is complete */
 }
 
-void BME680::measure(int delay, int nMeas, char *outputFile){
+void BME680::measure(int delay, int nMeas, Data &outputData, char *outputFile){
   
 	uint16_t meas_period;
 	time_t t = time(NULL);
@@ -75,10 +75,10 @@ void BME680::measure(int delay, int nMeas, char *outputFile){
 	int i=0;
 	
 	bme680_get_profile_dur(&meas_period, &_SensorSettings);
-	user_delay_ms(meas_period + delay*1000);
-
+	//user_delay_ms(meas_period + delay*1000);
+#if DEBUG
   printf("***Start of measurements with BME680***\n");
-  
+#endif	 
 	if(outputFile != NULL){
 		FILE *f = fopen(outputFile, "a");
 		
@@ -92,6 +92,11 @@ void BME680::measure(int delay, int nMeas, char *outputFile){
 				if(data.status & BME680_HEAT_STAB_MSK){
 					t = time(NULL);
 					tm = *localtime(&t);
+					outputData.setTemperature(data.temperature / 100.0f);
+					outputData.setHumidity(data.humidity / 1000.0f); 
+					outputData.setPressure(data.pressure / 100.0f); 
+					outputData.setGasResistance(data.gas_resistance);
+
 #if DEBUG
 					printf("%d-%02d-%02d %02d:%02d:%02d ", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
 					printf("T: %.2f degC, P: %.2f hPa, H: %.2f %%rH", data.temperature / 100.0f,
@@ -116,7 +121,6 @@ void BME680::measure(int delay, int nMeas, char *outputFile){
 		}
 	}		
 }
-
 
 
 /***************Global functions*******************/
