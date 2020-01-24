@@ -1,1 +1,2 @@
-# BME680
+# SensorClass
+
