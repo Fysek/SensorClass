@@ -1,37 +1,30 @@
 #include "sensor.h"
-#include "bme680_sensor.h"
-#include "apds9960_sensor.h"
-#include "dht11_sensor.h"
-#include "ds18b20_sensor.h"
+#include "sensor_factory.h"
 
-
-#define BME680_I2C_ADDR UINT8_C(0x76)
-
-
+const int BME680_I2C_ADDR = 0x76;
 
 int main(){
-    BME680 iBME680(BME680_I2C_ADDR);
-    APDS9960 iAPDS9960;
-    DHT11 iDHT11;
-    DS18B20 iDS18B20;
     Data dataBME680;
     char *outputFile = "log.txt";
     int i=0;
     std::string output;
     
-   	iBME680.startConnection();
-    iBME680.configure();
+	SensorFactory *sensorFactory;
+	Sensor *sensor_BME680;
 
-    
+	sensor_BME680 = sensorFactory->CreateSensor(ST_BME680);
+	sensor_BME680 -> startConnection();
+	sensor_BME680 -> I2CSetAddress(BME680_I2C_ADDR);
+	sensor_BME680 -> configure();
+	
     while(1){
-      iBME680.measure(5, 1, dataBME680, outputFile);
+      sensor_BME680->measure(5, 1, dataBME680, outputFile);
       output = dataBME680.toString();
-
-      //std::cout<< output << std::endl;
+      std::cout<< output << std::endl;
       i++;
     } 
     
-    iBME680.stopConnection();
+    sensor_BME680->stopConnection();
 
     return 0;
 }

@@ -38,18 +38,15 @@ class BME680: public Sensor {
   private: 
     struct bme680_dev _SensorSettings;
     int _configurationResult=BME680_OK;
-    int _I2CAddress;
-    
+   
   public:
-	  BME680(int I2CAddress){
-      _I2CAddress=I2CAddress;
-    }
-    
-	  void startConnection() override;
-	  void stopConnection() override;
-    void configure()override;
-    void I2CSetAddress(int address);
-    void measure(int delay, int nMeas, Data &outputData, char *outputFile);
+	BME680();
+
+	void startConnection() override;
+	void stopConnection() override;
+    void configure() override;
+    void measure(int delay, int nMeas, Data &outputData, char *outputFile) override;
+	void I2CSetAddress(int address) override; 
 };
 
 /*Global functions for sensor configuration*/

@@ -1,33 +1,39 @@
-all: main.o callback.o sensor.o data.o apds9960_sensor.o bme680.o bme680_sensor.o dht11_sensor.o ds18b20_sensor.o
-	g++ -o main main.o callback.o sensor.o data.o apds9960_sensor.o bme680.o bme680_sensor.o dht11_sensor.o ds18b20_sensor.o
+.PHONY = all clean
+CC = g++
+LINKERFLAG = -lcrypto -lssl -lpaho-mqtt3as -lpaho-mqttpp3 
 
-main.o: main.cpp
-	g++ -c main.cpp -lcrypto -lssl -lpaho-mqtt3as -lpaho-mqttpp3 
- 
-callback.o: ../mqtt/callback.cpp ../mqtt/callback.h
-	g++ -c ../mqtt/callback.cpp -lcrypto -lssl -lpaho-mqtt3as -lpaho-mqttpp3 
- 
-sensor.o: ../sensor_class/sensor.cpp ../sensor_class/sensor.h
-	g++ -c ../sensor_class/sensor.cpp 
+all: main.o callback.o sensor.o sensor_factory.o data.o apds9960_sensor.o bme680.o bme680_sensor.o dht11_sensor.o ds18b20_sensor.o
+	${CC} -o main main.o callback.o sensor.o sensor_factory.o data.o apds9960_sensor.o bme680.o bme680_sensor.o dht11_sensor.o ds18b20_sensor.o ${LINKERFLAG}  
 
-data.o: ../sensor_class/data.cpp ../sensor_class/data.h
-	g++ -c ../sensor_class/data.cpp
+main.o: main.cpp 
+	${CC} -c main.cpp  
  
-apds9960_sensor.o: ../sensor_class/apds9960_sensor.cpp ../sensor_class/apds9960_sensor.h
-	g++ -c ../sensor_class/apds9960_sensor.cpp
+callback.o: ../mqtt/callback.cpp 
+	${CC} -c ../mqtt/callback.cpp 
+ 
+sensor.o: ../sensor_class/sensor.cpp 
+	${CC} -c ../sensor_class/sensor.cpp 
+	
+sensor_factory.o: ../sensor_class/sensor_factory.cpp 
+	${CXX} -c ../sensor_class/sensor_factory.cpp	
 
-bme680.o: ../bme680_controller/bme680.c ../bme680_controller/bme680.h ../bme680_controller/bme680_defs.h
-	gcc -c ../bme680_controller/bme680.c 
+data.o: ../sensor_class/data.cpp 
+	${CC} -c ../sensor_class/data.cpp
  
-bme680_sensor.o: ../sensor_class/bme680_sensor.cpp ../bme680_controller/bme680.h 
-	gcc -c ../sensor_class/bme680_sensor.cpp 
+apds9960_sensor.o: ../sensor_class/apds9960_sensor.cpp 
+	${CC} -c ../sensor_class/apds9960_sensor.cpp
+
+bme680.o: ../bme680_controller/bme680.c 
+	${CC} -c ../bme680_controller/bme680.c 
  
-dht11_sensor.o: ../sensor_class/dht11_sensor.cpp ../sensor_class/dht11_sensor.h
-	g++ -c ../sensor_class/dht11_sensor.cpp
+bme680_sensor.o: ../sensor_class/bme680_sensor.cpp 
+	${CC} -c ../sensor_class/bme680_sensor.cpp 
  
-ds18b20_sensor.o: ../sensor_class/ds18b20_sensor.cpp ../sensor_class/ds18b20_sensor.h
-	g++ -c ../sensor_class/ds18b20_sensor.cpp
+dht11_sensor.o: ../sensor_class/dht11_sensor.cpp 
+	${CC} -c ../sensor_class/dht11_sensor.cpp
+ 
+ds18b20_sensor.o: ../sensor_class/ds18b20_sensor.cpp 
+	${CC} -c ../sensor_class/ds18b20_sensor.cpp
 
 clean:
-	rm main main.o sensor.o data.o pds9960_sensor.o bme680.o bme680_sensor.o dht11_sensor.o ds18b20_sensor.o
-
+	rm main main.o sensor.o sensor_factory.o data.o apds9960_sensor.o bme680.o bme680_sensor.o dht11_sensor.o ds18b20_sensor.o

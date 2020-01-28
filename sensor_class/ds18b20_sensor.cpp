@@ -11,3 +11,11 @@ void DS18B20::startConnection(){
 void DS18B20::stopConnection(){
     std::cout << "Configure stop connection of your DS18B20 sensor here..."<<std::endl;
 }
+
+void DS18B20::measure(int delay, int nMeas, Data &outputData, char *outputFile){
+   //nothing
+}
+
+void DS18B20::I2CSetAddress(int address){
+	//nothing
+}

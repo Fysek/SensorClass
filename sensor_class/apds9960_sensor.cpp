@@ -11,3 +11,11 @@ void APDS9960::startConnection(){
 void APDS9960::stopConnection(){
     std::cout << "Configure stop connection of your APDS9960 sensor here..."<<std::endl;
 }
+
+void APDS9960::measure(int delay, int nMeas, Data &outputData, char *outputFile){
+   //nothing
+}
+
+void APDS9960::I2CSetAddress(int address){
+	//nothing
+}

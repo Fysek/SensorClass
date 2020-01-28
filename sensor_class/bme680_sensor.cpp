@@ -1,6 +1,10 @@
 #include "bme680_sensor.h"
 
 int BME680_I2CHandler;
+int BME680_I2CAddress;
+BME680::BME680(){
+	//nothing here
+}
 
 void BME680::startConnection(){
 	BME680_I2CHandler = open("/dev/i2c-1", O_RDWR);
@@ -15,6 +19,7 @@ void BME680::stopConnection(){
 }
 
 void BME680::I2CSetAddress(int address){
+	BME680_I2CAddress = address; 
 	if (ioctl(BME680_I2CHandler, I2C_SLAVE, address) < 0) {
 		perror("I2C address does not exist!");
 		exit(1);
@@ -23,16 +28,14 @@ void BME680::I2CSetAddress(int address){
 
 void BME680::configure(){
    
-  I2CSetAddress(_I2CAddress);   
-   
-  _SensorSettings.dev_id = _I2CAddress;
+  _SensorSettings.dev_id = BME680_I2CAddress;
   _SensorSettings.intf = BME680_I2C_INTF;
   _SensorSettings.read = &user_i2c_read;
   _SensorSettings.write = &user_i2c_write;
   _SensorSettings.delay_ms = &user_delay_ms;
   
   _configurationResult = bme680_init(&_SensorSettings);
-  
+
   uint8_t set_required_settings;
      
   //Select the power mode 
@@ -75,7 +78,6 @@ void BME680::measure(int delay, int nMeas, Data &outputData, char *outputFile){
 	int i=0;
 	
 	bme680_get_profile_dur(&meas_period, &_SensorSettings);
-	//user_delay_ms(meas_period + delay*1000);
 #if DEBUG
   printf("***Start of measurements with BME680***\n");
 #endif	 
@@ -88,20 +90,18 @@ void BME680::measure(int delay, int nMeas, Data &outputData, char *outputFile){
 		else {
 			while(i<nMeas) {
 				_configurationResult = bme680_get_sensor_data(&data, &_SensorSettings);
-				
 				if(data.status & BME680_HEAT_STAB_MSK){
 					t = time(NULL);
 					tm = *localtime(&t);
 					outputData.setTemperature(data.temperature / 100.0f);
 					outputData.setHumidity(data.humidity / 1000.0f); 
 					outputData.setPressure(data.pressure / 100.0f); 
-					outputData.setGasResistance(data.gas_resistance);
-
+					outputData.setGasResistance(data.gas_resistance/ 1000.0f);
 #if DEBUG
 					printf("%d-%02d-%02d %02d:%02d:%02d ", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
 					printf("T: %.2f degC, P: %.2f hPa, H: %.2f %%rH", data.temperature / 100.0f,
 							data.pressure / 100.0f, data.humidity / 1000.0f );
-					printf(", G: %d Ohms", data.gas_resistance);
+					printf(", G: %f Ohms", data.gas_resistance/ 1000.0f);
 					printf("\r\n");
 #endif		
 					fprintf(f,"%d-%02d-%02d %02d:%02d:%02d ", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
@@ -114,10 +114,11 @@ void BME680::measure(int delay, int nMeas, Data &outputData, char *outputFile){
 					nMeas++;//When setup unstable, add measurement
 				}
 				i++;
-				/*Prepare next measurement*/
-				_configurationResult = bme680_set_sensor_mode(&_SensorSettings); 
-				user_delay_ms(meas_period + delay*1000); 		
+				/*Prepare next measurement*/ 
+				_configurationResult = bme680_set_sensor_mode(&_SensorSettings); 		
+				user_delay_ms(meas_period + delay*1000); 					
 			}
+			fclose(f);
 		}
 	}		
 }
@@ -164,8 +165,3 @@ int8_t user_i2c_write(uint8_t dev_id, uint8_t reg_addr, uint8_t *reg_data, uint1
 
     return rslt;
 }
-
-
-
-
-
