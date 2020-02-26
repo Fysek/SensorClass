@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding='ISO-8859-1' standalone='yes' ?>
+<TestRun>
+  <FailedTests></FailedTests>
+  <SuccessfulTests>
+    <Test id="1">
+      <Name>TestData::testDefDataConstructor</Name>
+    </Test>
+    <Test id="2">
+      <Name>TestData::testParamDataConstructor</Name>
+    </Test>
+    <Test id="3">
+      <Name>TestData::testNoSetGetTemperature</Name>
+    </Test>
+    <Test id="4">
+      <Name>TestData::testSetGetTemperature</Name>
+    </Test>
+    <Test id="5">
+      <Name>TestData::testNoSetGetHumidity</Name>
+    </Test>
+    <Test id="6">
+      <Name>TestData::testSetGetHumidity</Name>
+    </Test>
+    <Test id="7">
+      <Name>TestData::testNoSetGetPressure</Name>
+    </Test>
+    <Test id="8">
+      <Name>TestData::testSetGetPressure</Name>
+    </Test>
+    <Test id="9">
+      <Name>TestData::testNoSetGetGasResistance</Name>
+    </Test>
+    <Test id="10">
+      <Name>TestData::testSetGetGasResistance</Name>
+    </Test>
+    <Test id="11">
+      <Name>TestData::testNoSetGetProximity</Name>
+    </Test>
+    <Test id="12">
+      <Name>TestData::testSetGetProximity</Name>
+    </Test>
+    <Test id="13">
+      <Name>TestData::testNoSetGetSmokeLevel</Name>
+    </Test>
+    <Test id="14">
+      <Name>TestData::testSetGetSmokeLevel</Name>
+    </Test>
+    <Test id="15">
+      <Name>TestData::testNoSetGetDistance</Name>
+    </Test>
+    <Test id="16">
+      <Name>TestData::testSetGetDistance</Name>
+    </Test>
+    <Test id="17">
+      <Name>TestData::testToStringTemperature</Name>
+    </Test>
+    <Test id="18">
+      <Name>TestData::testToStringHumidity</Name>
+    </Test>
+    <Test id="19">
+      <Name>TestData::testToStringPressure</Name>
+    </Test>
+    <Test id="20">
+      <Name>TestData::testToStringGasResistance</Name>
+    </Test>
+    <Test id="21">
+      <Name>TestData::testToStringProximity</Name>
+    </Test>
+    <Test id="22">
+      <Name>TestData::testToStringSmokeLevel</Name>
+    </Test>
+    <Test id="23">
+      <Name>TestData::testToStringDistance</Name>
+    </Test>
+    <Test id="24">
+      <Name>TestSensor::testSensorConstructor</Name>
+    </Test>
+    <Test id="25">
+      <Name>TestSensor::testSensorDestructor</Name>
+    </Test>
+    <Test id="26">
+      <Name>TestSensorFactory::testSensorCreator</Name>
+    </Test>
+    <Test id="27">
+      <Name>TestSensorFactory::testSensorDestroyerFirst</Name>
+    </Test>
+    <Test id="28">
+      <Name>TestSensorFactory::testSensorDestroyerLast</Name>
+    </Test>
+  </SuccessfulTests>
+  <Statistics>
+    <Tests>28</Tests>
+    <FailuresTotal>0</FailuresTotal>
+    <Errors>0</Errors>
+    <Failures>0</Failures>
+  </Statistics>
+</TestRun>

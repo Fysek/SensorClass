@@ -31,11 +31,11 @@ int main(){
 
 
 	try {
-		std::cout << "\nConnecting..." << std::endl;
+		//std::cout << "\nConnecting..." << std::endl;
 		mqtt::token_ptr conntok = client.connect(conopts);
-		std::cout << "Waiting for the connection..." << std::endl;
+		//std::cout << "Waiting for the connection..." << std::endl;
 		conntok->wait();
-		std::cout << "  ...OK" << std::endl;
+		//std::cout << "  ...OK" << std::endl;
 
 
     while(1){

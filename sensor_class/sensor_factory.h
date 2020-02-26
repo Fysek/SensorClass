@@ -1,5 +1,6 @@
 #ifndef SENSOR_FACTORY_H
 #define SENSOR_FACTORY_H
+
 #include "sensor.h"
 #include "bme680_sensor.h"
 #include "apds9960_sensor.h"
@@ -14,6 +15,7 @@ enum SensorType {
 class SensorFactory {
   public:
 	Sensor* CreateSensor(SensorType type); 
+	void DestroySensor(Sensor* sensor); 
 };
 
 

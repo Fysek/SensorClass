@@ -2,29 +2,42 @@
 #include "sensor_factory.h"
 
 const int BME680_I2C_ADDR = 0x76;
+const int APDS9960_I2C_ADDR = 0x39;
+const int numberOfMeasurements = 20;
 
 int main(){
-    Data dataBME680;
+    Data dataSensors;
     char *outputFile = "log.txt";
     int i=0;
     std::string output;
     
 	SensorFactory *sensorFactory;
-	Sensor *sensor_BME680;
+	Sensor *sensorBME680;
+	Sensor *sensorAPDS9960;
 
-	sensor_BME680 = sensorFactory->CreateSensor(ST_BME680);
-	sensor_BME680 -> startConnection();
-	sensor_BME680 -> I2CSetAddress(BME680_I2C_ADDR);
-	sensor_BME680 -> configure();
+	sensorBME680 = sensorFactory->CreateSensor(ST_BME680);
+	sensorBME680->startConnection();
+	sensorBME680->I2CSetAddress(BME680_I2C_ADDR);
+	sensorBME680->configure();
 	
-    while(1){
-      sensor_BME680->measure(5, 1, dataBME680, outputFile);
-      output = dataBME680.toString();
+	sensorAPDS9960 = sensorFactory->CreateSensor(ST_APDS9960);
+	sensorAPDS9960->I2CSetAddress(APDS9960_I2C_ADDR);
+	sensorAPDS9960->startConnection();
+	sensorAPDS9960->configure();
+	
+    while(i<numberOfMeasurements){
+      sensorBME680->measure(4, 1, dataSensors, outputFile);
+      sensorAPDS9960->measure(3, 1, dataSensors, outputFile);
+      output = dataSensors.toString();
       std::cout<< output << std::endl;
       i++;
     } 
     
-    sensor_BME680->stopConnection();
-
+    sensorBME680->stopConnection();
+	sensorFactory->DestroySensor(sensorBME680);
+	
+	sensorAPDS9960->stopConnection();
+	sensorFactory->DestroySensor(sensorAPDS9960);
+	
     return 0;
 }

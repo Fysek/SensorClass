@@ -16,7 +16,7 @@
 *   Gesture in progress:   35mA
 */
 
-#include "APDS9960_RPi.h"
+#include "apds9960_rpi.h"
 
 /**
 * @brief Constructor - Instantiates APDS9960_RPi object
@@ -44,6 +44,24 @@ APDS9960_RPi::~APDS9960_RPi()
 
 }
 
+bool APDS9960_RPi::connect(uint8_t address){
+	uint8_t id;
+	fd_ = wiringPiI2CSetup(address);
+	if(fd_ == -1) {
+		return false;
+	}
+	
+	if( !wireReadDataByte(APDS9960_ID, id) ) {
+		return false;
+	}
+	
+	if( !(id == APDS9960_ID_1 || id == APDS9960_ID_2) ) {
+		return false;
+	}
+	return true;
+}
+
+
 /**
 * @brief Configures I2C communications and initializes registers to defaults
 *
@@ -51,21 +69,22 @@ APDS9960_RPi::~APDS9960_RPi()
 */
 bool APDS9960_RPi::init()
 {
-	uint8_t id;
+	
+	//uint8_t id;
 
 	/* Initialize I2C */
-	fd_ = wiringPiI2CSetup(APDS9960_I2C_ADDR);
+	/*fd_ = wiringPiI2CSetup(APDS9960_I2C_ADDR);
 	if(fd_ == -1) {
 		return false;
-	}
+	}*/
 	
 	/* Read ID register and check against known values for APDS-9960 */
-	if( !wireReadDataByte(APDS9960_ID, id) ) {
+	/*if( !wireReadDataByte(APDS9960_ID, id) ) {
 		return false;
 	}
 	if( !(id == APDS9960_ID_1 || id == APDS9960_ID_2) ) {
 		return false;
-	}
+	}*/
 	
 	/* Set ENABLE register to 0 (disable all features) */
 	if( !setMode(ALL, OFF) ) {
@@ -177,17 +196,17 @@ bool APDS9960_RPi::init()
 				(reg != 0xAD) )
 		{
 			wireReadDataByte(reg, val);
-			Serial.print(reg, HEX);
-			Serial.print(": 0x");
-			Serial.println(val, HEX);
+			std::cout << std::hex << reg << std::endl;
+			std::cout <<  ": 0x";
+			std::cout << std::hex << val << std::endl;
 		}
 	}
 
 	for(reg = 0xE4; reg <= 0xE7; reg++) {
 		wireReadDataByte(reg, val);
-		Serial.print(reg, HEX);
-		Serial.print(": 0x");
-		Serial.println(val, HEX);
+		std::cout << std::hex << reg << std::endl;
+		std::cout <<  ": 0x";
+		std::cout << std::hex << val << std::endl;
 	}
 #endif
 
@@ -478,8 +497,8 @@ int APDS9960_RPi::readGesture()
 			}
 
 #if DEBUG
-			Serial.print("FIFO Level: ");
-			Serial.println(fifo_level);
+			std::cout << "FIFO Level: " << std::endl;
+			std::cout << fifo_level << std::endl;		
 #endif
 
 			/* If there's stuff in the FIFO, read it into our data block */
@@ -491,12 +510,12 @@ int APDS9960_RPi::readGesture()
 					return ERROR;
 				}
 #if DEBUG
-				Serial.print("FIFO Dump: ");
+				
+				std::cout << "FIFO Dump: " << std::endl;
 				for ( i = 0; i < bytes_read; i++ ) {
-					Serial.print(fifo_data[i]);
-					Serial.print(" ");
+					std::cout << std::hex << fifo_data[i]<< " ";
 				}
-				Serial.println();
+				std::cout << "" << std::endl;			
 #endif
 
 				/* If at least 1 set of data, sort the data into U/D/L/R */
@@ -515,12 +534,13 @@ int APDS9960_RPi::readGesture()
 					}
 					
 #if DEBUG
-					Serial.print("Up Data: ");
+					
+					std::cout << "Up Data: " << std::endl;
 					for ( i = 0; i < gesture_data_.total_gestures; i++ ) {
-						Serial.print(gesture_data_.u_data[i]);
-						Serial.print(" ");
+						std::cout << std::hex << gesture_data_.u_data[i] << std::endl;						
+						std::cout << " " << std::endl;
 					}
-					Serial.println();
+					std::cout << "" << std::endl;
 #endif
 
 					/* Filter and process gesture data. Decode near/far state */
@@ -545,8 +565,8 @@ int APDS9960_RPi::readGesture()
 			decodeGesture();
 			motion = gesture_motion_;
 #if DEBUG
-			Serial.print("END: ");
-			Serial.println(gesture_motion_);
+			std::cout << "END: " << std::endl;
+			std::cout << gesture_motion_ << std::endl;
 #endif
 			resetGestureParameters();
 			return motion;
@@ -793,15 +813,16 @@ bool APDS9960_RPi::processGestureData()
 		/* Find the last value in U/D/L/R above the threshold */
 		for( i = gesture_data_.total_gestures - 1; i >= 0; i-- ) {
 #if DEBUG
-			Serial.print(F("Finding last: "));
-			Serial.print(F("U:"));
-			Serial.print(gesture_data_.u_data[i]);
-			Serial.print(F(" D:"));
-			Serial.print(gesture_data_.d_data[i]);
-			Serial.print(F(" L:"));
-			Serial.print(gesture_data_.l_data[i]);
-			Serial.print(F(" R:"));
-			Serial.println(gesture_data_.r_data[i]);
+			std::cout << "Finding last: ";
+			std::cout << "U:";
+			std::cout << std::hex << gesture_data_.u_data[i] << std::endl;	
+			std::cout << " D:";
+			std::cout << std::hex << gesture_data_.d_data[i] << std::endl;
+			std::cout << " L:";		
+			std::cout << std::hex << gesture_data_.l_data[i] << std::endl;
+			std::cout << " R:";
+			std::cout << std::hex << gesture_data_.r_data[i] << std::endl;
+			
 #endif
 			if( (gesture_data_.u_data[i] > GESTURE_THRESHOLD_OUT) &&
 					(gesture_data_.d_data[i] > GESTURE_THRESHOLD_OUT) &&
@@ -824,25 +845,25 @@ bool APDS9960_RPi::processGestureData()
 	lr_ratio_last = ((l_last - r_last) * 100) / (l_last + r_last);
 	
 #if DEBUG
-	Serial.print(F("Last Values: "));
-	Serial.print(F("U:"));
-	Serial.print(u_last);
-	Serial.print(F(" D:"));
-	Serial.print(d_last);
-	Serial.print(F(" L:"));
-	Serial.print(l_last);
-	Serial.print(F(" R:"));
-	Serial.println(r_last);
+	std::cout << "Last Values: ";
+	std::cout << "U:";
+	std::cout << std::hex << u_last;
+	std::cout << " D:";
+	std::cout << std::hex << d_last;
+	std::cout << " L:";
+	std::cout << std::hex << l_last;
+	std::cout << " R:";
+	std::cout << std::hex << r_last << std::endl;
 
-	Serial.print(F("Ratios: "));
-	Serial.print(F("UD Fi: "));
-	Serial.print(ud_ratio_first);
-	Serial.print(F(" UD La: "));
-	Serial.print(ud_ratio_last);
-	Serial.print(F(" LR Fi: "));
-	Serial.print(lr_ratio_first);
-	Serial.print(F(" LR La: "));
-	Serial.println(lr_ratio_last);
+	std::cout << "Ratios: ";
+	std::cout << "UD Fi: ";
+	std::cout << std::hex << ud_ratio_first;
+	std::cout << " UD La: ";
+	std::cout << std::hex << ud_ratio_last;
+	std::cout << " LR Fi: ";
+	std::cout << std::hex << lr_ratio_first;
+	std::cout << " LR La: ";
+	std::cout << std::hex << lr_ratio_last << std::endl;
 #endif
 	
 	/* Determine the difference between the first and last ratios */
@@ -850,11 +871,11 @@ bool APDS9960_RPi::processGestureData()
 	lr_delta = lr_ratio_last - lr_ratio_first;
 	
 #if DEBUG
-	Serial.print("Deltas: ");
-	Serial.print("UD: ");
-	Serial.print(ud_delta);
-	Serial.print(" LR: ");
-	Serial.println(lr_delta);
+	std::cout << "Deltas: ";
+	std::cout << "UD: ";
+	std::cout << ud_delta;
+	std::cout << " LR: ";
+	std::cout << lr_delta << std::endl;
 #endif
 
 	/* Accumulate the UD and LR delta values */
@@ -862,11 +883,11 @@ bool APDS9960_RPi::processGestureData()
 	gesture_lr_delta_ += lr_delta;
 	
 #if DEBUG
-	Serial.print("Accumulations: ");
-	Serial.print("UD: ");
-	Serial.print(gesture_ud_delta_);
-	Serial.print(" LR: ");
-	Serial.println(gesture_lr_delta_);
+	std::cout << "Accumulations: ";
+	std::cout << "UD: ";
+	std::cout << gesture_ud_delta_;
+	std::cout << " LR: ";
+	std::cout << gesture_lr_delta_ << std::endl;
 #endif
 	
 	/* Determine U/D gesture */
@@ -925,15 +946,15 @@ bool APDS9960_RPi::processGestureData()
 	}
 	
 #if DEBUG
-	Serial.print("UD_CT: ");
-	Serial.print(gesture_ud_count_);
-	Serial.print(" LR_CT: ");
-	Serial.print(gesture_lr_count_);
-	Serial.print(" NEAR_CT: ");
-	Serial.print(gesture_near_count_);
-	Serial.print(" FAR_CT: ");
-	Serial.println(gesture_far_count_);
-	Serial.println("----------");
+	std::cout << "UD_CT: ";
+	std::cout << gesture_ud_count_;
+	std::cout << " LR_CT: ";
+	std::cout << gesture_lr_count_;
+	std::cout << " NEAR_CT: ";
+	std::cout << gesture_near_count_;
+	std::cout << " FAR_CT: ";
+	std::cout << gesture_far_count_ << std::endl;
+	std::cout << "----------" << std::endl;
 #endif
 	
 	return false;
@@ -2154,7 +2175,8 @@ bool APDS9960_RPi::wireReadDataByte(uint8_t reg, uint8_t &val)
 * @param[in] len number of bytes to read
 * @return Number of bytes read. -1 on read error.
 */
-int APDS9960_RPi::wireReadDataBlock(   uint8_t reg, 
+int APDS9960_RPi::wireReadDataBlock(   
+uint8_t reg, 
 uint8_t *val, 
 unsigned int len)
 {
@@ -2172,3 +2194,15 @@ unsigned int len)
 	}
 	return i;
 }
+
+int APDS9960_RPi::getGestureUdDelta()	{return gesture_ud_delta_;}
+int APDS9960_RPi::getGestureLrDelta()	{return gesture_lr_delta_;}
+int APDS9960_RPi::getGestureUdCount()	{return gesture_ud_count_;}
+int APDS9960_RPi::getGestureLrCount()	{return gesture_lr_count_;}
+int APDS9960_RPi::getGestureNearCount()	{return gesture_near_count_;}
+int APDS9960_RPi::getGestureFarCount()	{return gesture_far_count_;}
+int APDS9960_RPi::getGestureState()		{return gesture_state_;}
+int APDS9960_RPi::getGestureMotion()	{return gesture_motion_;}
+
+
+

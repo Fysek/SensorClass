@@ -1,5 +1,5 @@
 /**
-* @file    APDS9960_RPi.h
+* @file    apds9960_rpi.h
 * @brief   Raspberry Pi library for the SparkFun APDS-9960 breakout board
 * @author  Shawn Hymel (SparkFun Electronics), Modified for Raspberry Pi by Justin Woodman
 *
@@ -23,12 +23,13 @@
 #include <wiringPiI2C.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <iostream>
 
 /* Debug */
 #define DEBUG                   0
 
 /* APDS-9960 I2C address */
-#define APDS9960_I2C_ADDR       0x39
+#define APDS9960_I2C_ADDR__       0x39
 
 /* Gesture parameters */
 #define GESTURE_THRESHOLD_OUT   10
@@ -228,7 +229,9 @@ public:
 	/* Initialization methods */
 	APDS9960_RPi();
 	~APDS9960_RPi();
+	bool connect(uint8_t address);
 	bool init();
+	void resetGestureParameters();
 	uint8_t getMode();
 	bool setMode(uint8_t mode, uint8_t enable);
 	
@@ -294,14 +297,7 @@ public:
 	/* Gesture methods */
 	bool isGestureAvailable();
 	int readGesture();
-	
-private:
-
-	/* Gesture processing */
-	void resetGestureParameters();
-	bool processGestureData();
-	bool decodeGesture();
-
+		
 	/* Proximity Interrupt Threshold */
 	uint8_t getProxIntLowThresh();
 	bool setProxIntLowThresh(uint8_t threshold);
@@ -327,10 +323,27 @@ private:
 	/* Gesture LED, gain, and time control */
 	uint8_t getGestureWaitTime();
 	bool setGestureWaitTime(uint8_t time);
-	
+		
 	/* Gesture mode */
 	uint8_t getGestureMode();
 	bool setGestureMode(uint8_t mode);
+
+	
+	/*Getters*/
+	int getGestureUdDelta();
+	int getGestureLrDelta();
+	int getGestureUdCount();
+	int getGestureLrCount();
+	int getGestureNearCount();
+	int getGestureFarCount();
+	int getGestureState();
+	int getGestureMotion();
+		
+private:
+
+	/* Gesture processing */
+	bool processGestureData();
+	bool decodeGesture();
 
 	/* Raw I2C Commands */
 	bool wireWriteByte(uint8_t val);

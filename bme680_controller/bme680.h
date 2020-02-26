@@ -113,6 +113,145 @@ int8_t bme680_get_regs(uint8_t reg_addr, uint8_t *reg_data, uint16_t len, struct
 int8_t bme680_soft_reset(struct bme680_dev *dev);
 
 /*!
+ * @brief This internal API is used to set the memory page
+ * based on register address.
+ *
+ * The value of memory page
+ *  value  | Description
+ * --------|--------------
+ *   0     | BME680_PAGE0_SPI
+ *   1     | BME680_PAGE1_SPI
+ *
+ * @param[in] dev	:Structure instance of bme680_dev.
+ * @param[in] reg_addr	:Contains the register address array.
+ *
+ * @return Result of API execution status
+ * @retval zero -> Success / +ve value -> Warning / -ve value -> Error
+ */
+int8_t set_mem_page(uint8_t reg_addr, struct bme680_dev *dev);
+
+/*!
+ * @brief This internal API is used to calculate the Heat duration value.
+ *
+ * @param[in] dur	:Value of the duration to be shared.
+ *
+ * @return uint8_t threshold duration after calculation.
+ */
+uint8_t calc_heater_dur(uint16_t dur);
+
+#ifndef BME680_FLOAT_POINT_COMPENSATION
+
+/*!
+ * @brief This internal API is used to calculate the temperature value.
+ *
+ * @param[in] dev	:Structure instance of bme680_dev.
+ * @param[in] temp_adc	:Contains the temperature ADC value .
+ *
+ * @return uint32_t calculated temperature.
+ */
+int16_t calc_temperature(uint32_t temp_adc, struct bme680_dev *dev);
+
+/*!
+ * @brief This internal API is used to calculate the pressure value.
+ *
+ * @param[in] dev	:Structure instance of bme680_dev.
+ * @param[in] pres_adc	:Contains the pressure ADC value .
+ *
+ * @return uint32_t calculated pressure.
+ */
+uint32_t calc_pressure(uint32_t pres_adc, const struct bme680_dev *dev);
+
+/*!
+ * @brief This internal API is used to calculate the humidity value.
+ *
+ * @param[in] dev	:Structure instance of bme680_dev.
+ * @param[in] hum_adc	:Contains the humidity ADC value.
+ *
+ * @return uint32_t calculated humidity.
+ */
+uint32_t calc_humidity(uint16_t hum_adc, const struct bme680_dev *dev);
+
+/*!
+ * @brief This internal API is used to calculate the Gas Resistance value.
+ *
+ * @param[in] dev		:Structure instance of bme680_dev.
+ * @param[in] gas_res_adc	:Contains the Gas Resistance ADC value.
+ * @param[in] gas_range		:Contains the range of gas values.
+ *
+ * @return uint32_t calculated gas resistance.
+ */
+uint32_t calc_gas_resistance(uint16_t gas_res_adc, uint8_t gas_range, const struct bme680_dev *dev);
+
+/*!
+ * @brief This internal API is used to calculate the Heat Resistance value.
+ *
+ * @param[in] dev	: Structure instance of bme680_dev
+ * @param[in] temp	: Contains the target temperature value.
+ *
+ * @return uint8_t calculated heater resistance.
+ */
+uint8_t calc_heater_res(uint16_t temp, const struct bme680_dev *dev);
+
+#else
+/*!
+ * @brief This internal API is used to calculate the
+ * temperature value value in float format
+ *
+ * @param[in] dev	:Structure instance of bme680_dev.
+ * @param[in] temp_adc	:Contains the temperature ADC value .
+ *
+ * @return Calculated temperature in float
+ */
+float calc_temperature(uint32_t temp_adc, struct bme680_dev *dev);
+
+/*!
+ * @brief This internal API is used to calculate the
+ * pressure value value in float format
+ *
+ * @param[in] dev	:Structure instance of bme680_dev.
+ * @param[in] pres_adc	:Contains the pressure ADC value .
+ *
+ * @return Calculated pressure in float.
+ */
+float calc_pressure(uint32_t pres_adc, const struct bme680_dev *dev);
+
+/*!
+ * @brief This internal API is used to calculate the
+ * humidity value value in float format
+ *
+ * @param[in] dev	:Structure instance of bme680_dev.
+ * @param[in] hum_adc	:Contains the humidity ADC value.
+ *
+ * @return Calculated humidity in float.
+ */
+float calc_humidity(uint16_t hum_adc, const struct bme680_dev *dev);
+
+/*!
+ * @brief This internal API is used to calculate the
+ * gas resistance value value in float format
+ *
+ * @param[in] dev		:Structure instance of bme680_dev.
+ * @param[in] gas_res_adc	:Contains the Gas Resistance ADC value.
+ * @param[in] gas_range		:Contains the range of gas values.
+ *
+ * @return Calculated gas resistance in float.
+ */
+float calc_gas_resistance(uint16_t gas_res_adc, uint8_t gas_range, const struct bme680_dev *dev);
+
+/*!
+ * @brief This internal API is used to calculate the
+ * heater resistance value in float format
+ *
+ * @param[in] temp	: Contains the target temperature value.
+ * @param[in] dev	: Structure instance of bme680_dev.
+ *
+ * @return Calculated heater resistance in float.
+ */
+float calc_heater_res(uint16_t temp, const struct bme680_dev *dev);
+
+#endif
+
+/*!
  * @brief This API is used to set the power mode of the sensor.
  *
  * @param[in] dev : Structure instance of bme680_dev
@@ -218,6 +357,20 @@ int8_t bme680_set_sensor_settings(uint16_t desired_settings, struct bme680_dev *
  * @retval zero -> Success / +ve value -> Warning / -ve value -> Error.
  */
 int8_t bme680_get_sensor_settings(uint16_t desired_settings, struct bme680_dev *dev);
+
+/*!
+ * @brief This internal API is used to validate the device pointer for
+ * null conditions.
+ *
+ * @param[in] dev	:Structure instance of bme680_dev.
+ *
+ * @return Result of API execution status
+ * @retval zero -> Success / +ve value -> Warning / -ve value -> Error
+ */
+int8_t null_ptr_check(const struct bme680_dev *dev);
+
+
+
 #ifdef __cplusplus
 }
 #endif /* End of CPP guard */

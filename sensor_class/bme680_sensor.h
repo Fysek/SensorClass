@@ -36,16 +36,15 @@ stopConnection();
 
 class BME680: public Sensor {
   private: 
-    struct bme680_dev _SensorSettings;
-    int _configurationResult=BME680_OK;
+    struct bme680_dev m_SensorSettings;
+    int m_configurationResult=BME680_OK;
    
   public:
 	BME680();
-
 	void startConnection() override;
 	void stopConnection() override;
     void configure() override;
-    void measure(int delay, int nMeas, Data &outputData, char *outputFile) override;
+    void measure(int delayTime, int nMeas, Data &outputData, char *outputFile) override;
 	void I2CSetAddress(int address) override; 
 };
 

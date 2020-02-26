@@ -11,3 +11,9 @@ Sensor* SensorFactory::CreateSensor(SensorType type) {
         return new DS18B20(); 
     else return NULL; 
 } 
+
+void SensorFactory::DestroySensor(Sensor* sensor) { 
+    if(sensor){
+		delete sensor;
+    }
+} 

@@ -7,8 +7,7 @@ void  callback::connection_lost(const std::string& cause){
 }
 
 void callback::delivery_complete(mqtt::delivery_token_ptr tok){
-  std::cout << "\tDelivery complete for token: "
-    << (tok ? tok->get_message_id() : -1) << std::endl;
+  //std::cout << "\tDelivery complete for token: " << (tok ? tok->get_message_id() : -1) << std::endl;
 }
 
 

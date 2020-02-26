@@ -16,13 +16,13 @@
 #include "../../../paho.mqtt.cpp/src/mqtt/async_client.h"
 
 const int BME680_I2C_ADDR = 0x76;
+const int APDS9960_I2C_ADDR = 0x39;
 
-
-const std::string ADDRESS	    { "192.168.12.193" };
+const std::string ADDRESS	    { "192.168.12.16" };
 const std::string CLIENT_ID		{ "Raspberry Pi 1" };
 const char* LWT_PAYLOAD 		= "Transmission";
 const int  QOS 					= 1;
-const int  NUMBER_OF_TOPICS		= 5;
+const int  NUMBER_OF_TOPICS		= 6;
 const auto TIMEOUT 				= std::chrono::seconds(10);
 
 std::string timeConv(struct tm time){
@@ -40,12 +40,13 @@ int main(){
 	/*Hardware site*/
 	
 	SensorFactory *sensorFactory;
-	Sensor *sensor_BME680;
-
-	sensor_BME680 = sensorFactory->CreateSensor(ST_BME680);
-
+	Sensor *sensorBME680;
+	Sensor *sensorAPDS9960;
 	
-	Data dataBME680;
+	sensorBME680 = sensorFactory->CreateSensor(ST_BME680);
+	sensorAPDS9960 = sensorFactory->CreateSensor(ST_APDS9960);
+	
+	Data dataSensors;
 	char *outputFile = "logs.log";
 	std::string payload[NUMBER_OF_TOPICS];
 	time_t t = time(NULL);
@@ -58,6 +59,7 @@ int main(){
 	TOPIC[2]="home/bme680/humidity";
 	TOPIC[3]="home/bme680/pressure";
 	TOPIC[4]="home/bme680/gas_resistance";
+	TOPIC[5]="home/bme680/proximity";
 	
 	std::cout << "Initializing for server '" << ADDRESS << "'..." << std::endl;
 	mqtt::async_client client(ADDRESS, CLIENT_ID);
@@ -72,26 +74,32 @@ int main(){
    */
 	/*MQTT connect*/   
  	try {
-		std::cout << "\nConnecting..." << std::endl;
+		//std::cout << "\nConnecting..." << std::endl;
 		mqtt::token_ptr conntok = client.connect(conopts);
-		std::cout << "Waiting for the connection..." << std::endl;
+		//std::cout << "Waiting for the connection..." << std::endl;
 		conntok->wait();
-		std::cout << "  ...OK" << std::endl; 
+		//std::cout << "  ...OK" << std::endl; 
 		
 		/*BME680 connect*/  
-		sensor_BME680-> startConnection();
-		sensor_BME680-> I2CSetAddress(BME680_I2C_ADDR);
-		sensor_BME680-> configure();  
-
+		sensorBME680-> startConnection();
+		sensorBME680-> I2CSetAddress(BME680_I2C_ADDR);
+		sensorBME680-> configure();
+		/*APDS9960 connect*/  
+		sensorAPDS9960->I2CSetAddress(APDS9960_I2C_ADDR);
+		sensorAPDS9960->startConnection();
+		sensorAPDS9960->configure();
+		
 		while(1){
 			time_t t = time(NULL);
 			struct tm tm = *localtime(&t);
-			sensor_BME680->measure(5, 1, dataBME680, outputFile);
+			sensorBME680->measure(3, 1, dataSensors, outputFile);
+			sensorAPDS9960->measure(2, 1, dataSensors, outputFile);
 			payload[0] = timeConv(tm);
-			payload[1] = dataBME680.toStringTemperature();
-			payload[2] = dataBME680.toStringHumidity();
-			payload[3] = dataBME680.toStringPressure();
-			payload[4] = dataBME680.toStringGasResistance();
+			payload[1] = dataSensors.toStringTemperature();
+			payload[2] = dataSensors.toStringHumidity();
+			payload[3] = dataSensors.toStringPressure();
+			payload[4] = dataSensors.toStringGasResistance();
+			payload[5] = dataSensors.toStringProximity();
 			
 			for(int i=0; i<NUMBER_OF_TOPICS; i++){
 				mqtt::message_ptr pubmsg = mqtt::make_message(TOPIC[i], payload[i]);
@@ -101,7 +109,12 @@ int main(){
 		} 
      
 		/*BME680 disconnect*/   
-		sensor_BME680->stopConnection();
+		sensorBME680->stopConnection();
+		sensorFactory->DestroySensor(sensorBME680);
+		
+		/*APDS9960 disconnect*/ 		
+		sensorAPDS9960->stopConnection();
+		sensorFactory->DestroySensor(sensorAPDS9960);
 		
 		/*MQTT disconnect*/
 		std::cout << "\nDisconnecting..." << std::endl;

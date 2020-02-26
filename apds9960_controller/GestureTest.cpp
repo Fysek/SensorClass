@@ -1,5 +1,5 @@
 #include <iostream>
-#include "APDS9960_RPi.h"
+#include "apds9960_rpi.h"
 
 using namespace std;
 

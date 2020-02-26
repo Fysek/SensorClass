@@ -9,18 +9,27 @@
 
 class Data{
 	private:
-		float 	_temperature;
-		float 	_humidity;
-		float 	_pressure;
-		float 	_gasResistance;
-		int 	_proximity;
-		int 	_smokeLevel;
-		int 	_distance;
+		float 	m_temperature;
+		float 	m_humidity;
+		float 	m_pressure;
+		float 	m_gasResistance;
+		float 	m_proximity;
+		int 	m_smokeLevel;
+		int 	m_distance;
 	
 
 	public:
 		Data();
-		Data(float, float, float, float, int, int, int);
+		Data(
+			float 	temperature, 
+			float 	humidity, 
+			float 	pressure, 
+			float 	gasResistance, 
+			float 	proximity, 
+			int 	smokeLevel, 
+			int 	distance
+			);
+		
 		void printData();
 		std::string toString();
    
@@ -28,7 +37,7 @@ class Data{
 		void setHumidity(float humidity);
 		void setPressure(float pressure);
 		void setGasResistance(float gasResistance);
-		void setProximity(int proximity);
+		void setProximity(float proximity);
 		void setSmokeLevel(int smokeLevel);
 		void setDistance(int distance);
 
@@ -36,7 +45,7 @@ class Data{
 		float getHumidity();
 		float getPressure();
 		float getGasResistance();
-		int getProximity();
+		float getProximity();
 		int getSmokeLevel();
 		int getDistance();
 

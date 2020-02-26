@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding='ISO-8859-1' standalone='yes' ?>
+<TestRun>
+  <FailedTests></FailedTests>
+  <SuccessfulTests>
+    <Test id="1">
+      <Name>TestApdsNoSensor::testConstructor</Name>
+    </Test>
+    <Test id="2">
+      <Name>TestApdsNoSensor::testResetGestureParameters</Name>
+    </Test>
+    <Test id="3">
+      <Name>TestApdsNoSensor::testReadAmbientLight</Name>
+    </Test>
+    <Test id="4">
+      <Name>TestApdsNoSensor::testReadRedLight</Name>
+    </Test>
+    <Test id="5">
+      <Name>TestApdsNoSensor::testReadGreenLight</Name>
+    </Test>
+    <Test id="6">
+      <Name>TestApdsNoSensor::testReadBlueLight</Name>
+    </Test>
+    <Test id="7">
+      <Name>TestApdsNoSensor::testReadProximity</Name>
+    </Test>
+    <Test id="8">
+      <Name>TestApdsSensor::testConstructor</Name>
+    </Test>
+    <Test id="9">
+      <Name>TestApdsSensor::testResetGestureParameters</Name>
+    </Test>
+    <Test id="10">
+      <Name>TestApdsSensor::testEnablePower</Name>
+    </Test>
+    <Test id="11">
+      <Name>TestApdsSensor::testDisablePower</Name>
+    </Test>
+    <Test id="12">
+      <Name>TestApdsSensor::testConnectFalse</Name>
+    </Test>
+    <Test id="13">
+      <Name>TestApdsSensor::testConnectTrue</Name>
+    </Test>
+    <Test id="14">
+      <Name>TestApdsSensor::testEnableLightSensorIntTrue</Name>
+    </Test>
+    <Test id="15">
+      <Name>TestApdsSensor::testEnableLightSensorIntFalse</Name>
+    </Test>
+    <Test id="16">
+      <Name>TestApdsSensor::testDisableLightSensor</Name>
+    </Test>
+    <Test id="17">
+      <Name>TestApdsSensor::testReadAmbientLight</Name>
+    </Test>
+    <Test id="18">
+      <Name>TestApdsSensor::testReadRedLight</Name>
+    </Test>
+    <Test id="19">
+      <Name>TestApdsSensor::testReadGreenLight</Name>
+    </Test>
+    <Test id="20">
+      <Name>TestApdsSensor::testReadBlueLight</Name>
+    </Test>
+    <Test id="21">
+      <Name>TestApdsSensor::testReadProximity</Name>
+    </Test>
+    <Test id="22">
+      <Name>TestApdsSensor::testGetLEDDrive</Name>
+    </Test>
+    <Test id="23">
+      <Name>TestApdsSensor::testSetLEDDrive</Name>
+    </Test>
+    <Test id="24">
+      <Name>TestApdsSensor::testGetLEDBoost</Name>
+    </Test>
+    <Test id="25">
+      <Name>TestApdsSensor::testSetLEDBoost</Name>
+    </Test>
+    <Test id="26">
+      <Name>TestApdsSensor::testGetAmbientLightGain</Name>
+    </Test>
+    <Test id="27">
+      <Name>TestApdsSensor::testSetAmbientLightGain</Name>
+    </Test>
+    <Test id="28">
+      <Name>TestApdsSensor::testGetProximityGain</Name>
+    </Test>
+    <Test id="29">
+      <Name>TestApdsSensor::testSetProximityGain</Name>
+    </Test>
+    <Test id="30">
+      <Name>TestApdsSensor::testGetProxGainCompEnable</Name>
+    </Test>
+    <Test id="31">
+      <Name>TestApdsSensor::testSetProxGainCompEnable</Name>
+    </Test>
+    <Test id="32">
+      <Name>TestApdsSensor::testGetProxPhotoMask</Name>
+    </Test>
+    <Test id="33">
+      <Name>TestApdsSensor::testGetGestureGain</Name>
+    </Test>
+    <Test id="34">
+      <Name>TestApdsSensor::testSetGestureGain</Name>
+    </Test>
+    <Test id="35">
+      <Name>TestApdsSensor::testGetGestureLEDDrive</Name>
+    </Test>
+    <Test id="36">
+      <Name>TestApdsSensor::testSetGestureLEDDrive</Name>
+    </Test>
+    <Test id="37">
+      <Name>TestApdsSensor::testGetGestureWaitTime</Name>
+    </Test>
+    <Test id="38">
+      <Name>TestApdsSensor::testSetGestureWaitTime</Name>
+    </Test>
+    <Test id="39">
+      <Name>TestApdsSensor::testGetGestureMode</Name>
+    </Test>
+    <Test id="40">
+      <Name>TestApdsSensor::testSetGestureMode</Name>
+    </Test>
+    <Test id="41">
+      <Name>TestApdsThresh::testGetGestureEnterThresh</Name>
+    </Test>
+    <Test id="42">
+      <Name>TestApdsThresh::testSetGestureEnterThresh</Name>
+    </Test>
+    <Test id="43">
+      <Name>TestApdsThresh::testGetGestureExitThresh</Name>
+    </Test>
+    <Test id="44">
+      <Name>TestApdsThresh::testSetGestureExitThresh</Name>
+    </Test>
+    <Test id="45">
+      <Name>TestApdsThresh::testGetLightIntLowThresh</Name>
+    </Test>
+    <Test id="46">
+      <Name>TestApdsThresh::testSetLightIntLowThresh</Name>
+    </Test>
+    <Test id="47">
+      <Name>TestApdsThresh::testGetLightIntHighThresh</Name>
+    </Test>
+    <Test id="48">
+      <Name>TestApdsThresh::testSetLightIntHighThresh</Name>
+    </Test>
+    <Test id="49">
+      <Name>TestApdsThresh::testSetProxIntLowThresh</Name>
+    </Test>
+    <Test id="50">
+      <Name>TestApdsThresh::testGetProxIntLowThresh</Name>
+    </Test>
+    <Test id="51">
+      <Name>TestApdsThresh::testSetProxIntHighThresh</Name>
+    </Test>
+    <Test id="52">
+      <Name>TestApdsThresh::testGetProxIntHighThresh</Name>
+    </Test>
+    <Test id="53">
+      <Name>TestApdsInt::testGetAmbientLightIntEnable</Name>
+    </Test>
+    <Test id="54">
+      <Name>TestApdsInt::testSetAmbientLightIntEnable</Name>
+    </Test>
+    <Test id="55">
+      <Name>TestApdsInt::testGetProximityIntEnable</Name>
+    </Test>
+    <Test id="56">
+      <Name>TestApdsInt::testSetProximityIntEnable</Name>
+    </Test>
+    <Test id="57">
+      <Name>TestApdsInt::testGetGestureIntEnable</Name>
+    </Test>
+    <Test id="58">
+      <Name>TestApdsInt::testSetGestureIntEnable</Name>
+    </Test>
+    <Test id="59">
+      <Name>TestApdsInt::testClearAmbientLightInt</Name>
+    </Test>
+    <Test id="60">
+      <Name>TestApdsInt::testClearProximityInt</Name>
+    </Test>
+  </SuccessfulTests>
+  <Statistics>
+    <Tests>60</Tests>
+    <FailuresTotal>0</FailuresTotal>
+    <Errors>0</Errors>
+    <Failures>0</Failures>
+  </Statistics>
+</TestRun>

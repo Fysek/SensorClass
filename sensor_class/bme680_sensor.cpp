@@ -2,6 +2,7 @@
 
 int BME680_I2CHandler;
 int BME680_I2CAddress;
+
 BME680::BME680(){
 	//nothing here
 }
@@ -28,48 +29,48 @@ void BME680::I2CSetAddress(int address){
 
 void BME680::configure(){
    
-  _SensorSettings.dev_id = BME680_I2CAddress;
-  _SensorSettings.intf = BME680_I2C_INTF;
-  _SensorSettings.read = &user_i2c_read;
-  _SensorSettings.write = &user_i2c_write;
-  _SensorSettings.delay_ms = &user_delay_ms;
-  
-  _configurationResult = bme680_init(&_SensorSettings);
-
-  uint8_t set_required_settings;
-     
-  //Select the power mode 
-  //Must be set before writing the sensor configuration 
-  _SensorSettings.power_mode = BME680_FORCED_MODE; 
-  
-  /* Set the temperature, pressure and humidity settings */
-  _SensorSettings.tph_sett.os_hum = BME680_OS_2X;
-  _SensorSettings.tph_sett.os_pres = BME680_OS_4X;
-  _SensorSettings.tph_sett.os_temp = BME680_OS_8X;
-  _SensorSettings.tph_sett.filter = BME680_FILTER_SIZE_3;
-  
-  /* Set the remaining gas sensor settings and link the heating profile */
-  _SensorSettings.gas_sett.run_gas = BME680_ENABLE_GAS_MEAS;
-  
-  // Create a ramp heat waveform in 3 steps 
-  _SensorSettings.gas_sett.heatr_temp = 320; //degree Celsius 
-  _SensorSettings.gas_sett.heatr_dur = 150; //ms
-  
-  /* Set the required sensor settings needed */
-  set_required_settings = BME680_OST_SEL | BME680_OSP_SEL | BME680_OSH_SEL | BME680_FILTER_SEL 
-  	| BME680_GAS_SENSOR_SEL;
-  
-  /* Set the desired sensor configuration */
-  _configurationResult = bme680_set_sensor_settings(set_required_settings,&_SensorSettings);
-  
-  /* Set the power mode */
-  _configurationResult = bme680_set_sensor_mode(&_SensorSettings);
-  
-  /* Get the total measurement duration so as to sleep or wait till the
-   * measurement is complete */
+	m_SensorSettings.dev_id = BME680_I2CAddress;
+	m_SensorSettings.intf = BME680_I2C_INTF;
+	m_SensorSettings.read = &user_i2c_read;
+	m_SensorSettings.write = &user_i2c_write;
+	m_SensorSettings.delay_ms = &user_delay_ms;
+	
+	m_configurationResult = bme680_init(&m_SensorSettings);
+	
+	uint8_t set_required_settings;
+		
+	//Select the power mode 
+	//Must be set before writing the sensor configuration 
+	m_SensorSettings.power_mode = BME680_FORCED_MODE; 
+	
+	/* Set the temperature, pressure and humidity settings */
+	m_SensorSettings.tph_sett.os_hum = BME680_OS_2X;
+	m_SensorSettings.tph_sett.os_pres = BME680_OS_4X;
+	m_SensorSettings.tph_sett.os_temp = BME680_OS_8X;
+	m_SensorSettings.tph_sett.filter = BME680_FILTER_SIZE_3;
+	
+	/* Set the remaining gas sensor settings and link the heating profile */
+	m_SensorSettings.gas_sett.run_gas = BME680_ENABLE_GAS_MEAS;
+	
+	// Create a ramp heat waveform in 3 steps 
+	m_SensorSettings.gas_sett.heatr_temp = 320; //degree Celsius 
+	m_SensorSettings.gas_sett.heatr_dur = 150; //ms
+	
+	/* Set the required sensor settings needed */
+	set_required_settings = BME680_OST_SEL | BME680_OSP_SEL | BME680_OSH_SEL | BME680_FILTER_SEL 
+		| BME680_GAS_SENSOR_SEL;
+	
+	/* Set the desired sensor configuration */
+	m_configurationResult = bme680_set_sensor_settings(set_required_settings,&m_SensorSettings);
+	
+	/* Set the power mode */
+	m_configurationResult = bme680_set_sensor_mode(&m_SensorSettings);
+	
+	/* Get the total measurement duration so as to sleep or wait till the
+	* measurement is complete */
 }
 
-void BME680::measure(int delay, int nMeas, Data &outputData, char *outputFile){
+void BME680::measure(int delayTime, int nMeas, Data &outputData, char *outputFile){
   
 	uint16_t meas_period;
 	time_t t = time(NULL);
@@ -77,7 +78,7 @@ void BME680::measure(int delay, int nMeas, Data &outputData, char *outputFile){
 	struct tm tm = *localtime(&t);
 	int i=0;
 	
-	bme680_get_profile_dur(&meas_period, &_SensorSettings);
+	bme680_get_profile_dur(&meas_period, &m_SensorSettings);
 #if DEBUG
   printf("***Start of measurements with BME680***\n");
 #endif	 
@@ -89,7 +90,7 @@ void BME680::measure(int delay, int nMeas, Data &outputData, char *outputFile){
 		}
 		else {
 			while(i<nMeas) {
-				_configurationResult = bme680_get_sensor_data(&data, &_SensorSettings);
+				m_configurationResult = bme680_get_sensor_data(&data, &m_SensorSettings);
 				if(data.status & BME680_HEAT_STAB_MSK){
 					t = time(NULL);
 					tm = *localtime(&t);
@@ -115,8 +116,8 @@ void BME680::measure(int delay, int nMeas, Data &outputData, char *outputFile){
 				}
 				i++;
 				/*Prepare next measurement*/ 
-				_configurationResult = bme680_set_sensor_mode(&_SensorSettings); 		
-				user_delay_ms(meas_period + delay*1000); 					
+				m_configurationResult = bme680_set_sensor_mode(&m_SensorSettings); 		
+				user_delay_ms(meas_period + delayTime*1000); 					
 			}
 			fclose(f);
 		}

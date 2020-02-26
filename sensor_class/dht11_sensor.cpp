@@ -12,7 +12,7 @@ void DHT11::stopConnection(){
     std::cout << "Configure stop connection of your DHT11 sensor here..."<<std::endl;
 }
 
-void DHT11::measure(int delay, int nMeas, Data &outputData, char *outputFile){
+void DHT11::measure(int delayTime, int nMeas, Data &outputData, char *outputFile){
    //nothing
 }
 
