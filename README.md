@@ -3,8 +3,7 @@ The goal of this project is to create a sensor library in OOP. The process start
 
 ## UML Diagram
 
-
-![alt text](https://github.com/Fysek/SensorClass/blob/master/SensorClassUML.PNG)
+<a href="url"><img src="https://github.com/Fysek/SensorClass/blob/master/SensorClassUML.PNG" height="400" width="617" ></a>
 
 ### Prerequisites
 
