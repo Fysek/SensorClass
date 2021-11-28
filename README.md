@@ -8,8 +8,3 @@ The goal of this project is to create a sensor library in OOP. The process start
 ### Prerequisites
 
 to do
-
-
-## Running the tests
-
-to do
