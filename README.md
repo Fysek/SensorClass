@@ -3,8 +3,40 @@ The goal of this project is to create a sensor library in OOP. The process start
 
 ## UML Diagram
 
-<a href="url"><img src="https://github.com/Fysek/SensorClass/blob/master/SensorClassUML.PNG" height="400" width="617" ></a>
+<img src="https://github.com/Fysek/SensorClass/blob/master/SensorClassUML.PNG" width="800"/>
 
-### Prerequisites
+## Prerequisites
 
-to do
+### Application
+
+```sh
+sudo apt-get install libmosquitto-dev libmosquittopp-dev libssl-dev
+sudo apt-get install wiringpi
+```
+
+### Testing
+```sh
+sudo apt-get install libcppunit-dev
+```
+
+## Usage
+To run the application, simply execute the command below:
+```cmd
+cd application/
+make
+./main
+```
+
+To run the unit tests, go to the module with tests/ directory and run make, e.g.:
+```cmd
+cd sensor_class/tests/
+make
+./Testmain
+```
+
+<!-- CONTACT -->
+## Contact
+
+Mateusz Dyrdol - [@Mateusz Dyrdol](https://www.linkedin.com/in/mateusz-dyrdol/) - mateusz.dyrdol@gmail.com
+
+Project Link: [https://github.com/Fysek/SensorClass/](https://github.com/Fysek/SensorClass/)
